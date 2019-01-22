@@ -1,0 +1,24 @@
+let express = require('express');
+let router = express.Router();
+let jwtUtils = require('../utils/jwt.utils');
+let login = require('../models/login');
+
+router.post('/getToken', function (req, res, next) {
+
+    const {body} = req;
+    const {username}= body;
+    const {password}= body;
+
+    if (username === login.username && password === login.password) {
+        res.send(jwtUtils.generatedToken());
+    } else if (username != login.username) {
+        res.json("Username invalid");
+    } else if (password != login.password) {
+        res.json("Password invalid")
+    } else {
+        res.json("Unexpected error");
+        console.log('Unexpected error');
+    }
+});
+
+module.exports = router;

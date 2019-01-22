@@ -4,13 +4,13 @@ var Users = {
     getAllUsers: function (callback) {
         return db.query("SELECT * FROM users", callback);
     },
-    getUserById(id, callback) {
+    getUserById: function(id, callback) {
         return db.query("SELECT * FROM users WHERE id_user =?", [id], callback);
     },
-    getUserByLocation(location, callback) {
+    getUserByLocation: function(location, callback) {
         return db.query("SELECT * FROM users WHERE location =?", [location], callback);
     },
-    getUserByPermission(permission, callback) {
+    getUserByPermission: function(permission, callback) {
         return db.query("SELECT * FROM users WHERE permissions=?", [permission], callback);
     }
 };

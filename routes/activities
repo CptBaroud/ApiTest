@@ -1,0 +1,78 @@
+let express = require('express');
+let jwt = require('jsonwebtoken');
+
+let router = express.Router();
+let Activities = require('../models/activities');
+
+const JWT_SECRET_SIGN = 'tMKcN2BMKEgg6kK9eRuLRrjpqrd2m92v8NmmZ4jVTqTZVFBwAGUrwRCTpPtCLbpedgAv7Fx8DMbynS3RV4rLaUvjgWxEwpavRt76';
+
+router.get('/', function (req, res) {
+    Activities.getAllActivities(function (error, rows) {
+        console.log("Token : " + req.headers['token']);
+        jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (err) {
+            if (err) {
+                res.json(err);
+            } else {
+                if (error) {
+                    res.json(error);
+                } else {
+                    res.json(rows);
+                }
+            }
+        });
+    })
+});
+
+router.get('/:id?', function (req, res) {
+    if (req.params.id) {
+        Activities.getActivitiesById(req.params.id, function (error, rows) {
+            jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (err) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    if (error) {
+                        res.json(error);
+                    } else {
+                        res.json(rows);
+                    }
+                }
+            });
+        })
+    }
+});
+
+router.post('/', function (req, res) {
+
+    Activities.addActivities(req.body, function (error) {
+        jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (err) {
+            if (err) {
+                res.json(err);
+            } else {
+                if (error) {
+                    res.json(error);
+                } else {
+                    res.json(req.body);//or return count for 1 &amp;amp;amp; 0
+                }
+            }
+        })
+    });
+});
+
+router.put('/:id', function (req, res) {
+
+    Activities.updateActivities(req.params.id, req.body, function (err, rows) {
+        jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (error) {
+            if (error) {
+                res.json(error);
+            } else {
+                if (err) {
+                    res.json(err);
+                } else {
+                    res.json(req.body);
+                }
+            }
+        });
+    });
+});
+
+module.exports = router;
