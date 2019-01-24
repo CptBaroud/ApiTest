@@ -8,7 +8,7 @@ var cors = require('cors');
 var Users = require('./routes/users');
 var Activities = require('./routes/activities');
 var Login =require('./routes/login');
-
+var Comment =require('./routes/comment');
 var app = express();
 
 // view engine setup
@@ -25,6 +25,7 @@ app.use(cors());
 app.use('/Users', Users);
 app.use('/Activities', Activities);
 app.use('/login', Login);
+app.use('/comments', Comment);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
