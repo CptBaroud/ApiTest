@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
     })
 });
 
-router.get('/:id?', function (req, res) {
+router.get('/images/:id?', function (req, res) {
     Comment.getCommentsFromImages(req.params.id,function (error, rows) {
         jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (err) {
             if (err) {

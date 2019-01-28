@@ -60,15 +60,15 @@ router.post('/', function (req, res) {
 
 router.put('/:id', function (req, res) {
 
-    Activities.updateActivities(req.params.id, req.body, function (err, rows) {
-        jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (error) {
+    Activities.updateActivities(req.params.id, req.body, function (error, rows) {
+        jwt.verify(req.headers['token'], JWT_SECRET_SIGN, function (err) {
             if (error) {
                 res.json(error);
             } else {
                 if (err) {
                     res.json(err);
                 } else {
-                    res.json(req.body);
+                    res.json(rows);
                 }
             }
         });
